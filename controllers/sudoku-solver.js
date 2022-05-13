@@ -1,8 +1,8 @@
 class SudokuSolver {
 
   _validatePuzzleString(puzzleString) {
-    if (puzzleString.length === 0) {
-      throw new Error('Required field missing');
+    if (!puzzleString || puzzleString.length === 0) {
+      throw new Error('Required field(s) missing');
     }
   
     if (puzzleString.length !== 81) {
@@ -33,7 +33,7 @@ class SudokuSolver {
     }
 
     if (!/^[A-I][1-9]{1,2}$/.test(coordInput)) {
-       throw new Error('Invalid value');
+       throw new Error('Invalid coordinate');
     }
 
     return {
@@ -106,9 +106,13 @@ class SudokuSolver {
   }
 
   _checkPlacement(board, row, col, value) {
+    if (board[row][col] == value) {
+      return [];
+    }
+    
     const checks = {
       'row': this._checkRowPlacement,
-      'col': this._checkColPlacement,
+      'column': this._checkColPlacement,
       'region': this._checkRegionPlacement
     }
     const failedChecks = [];
@@ -166,7 +170,11 @@ class SudokuSolver {
     const board = this._buildTableFromString(puzzleString);
     this._solveSudoku(board);
     
-    return this._buildStringFromTable(board);
+    const solvedPuzzle = this._buildStringFromTable(board);
+    if (solvedPuzzle.indexOf('.') !== -1) {
+      throw new Error('Puzzle cannot be solved');
+    }
+    return solvedPuzzle;
   }
 }
 

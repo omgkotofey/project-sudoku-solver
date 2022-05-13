@@ -29,6 +29,9 @@ module.exports = function (app) {
     .post((req, res) => {
       const {puzzle} = req.body;
       try {
+        if (!puzzle) {
+          throw new Error('Required field missing');
+        }
         const solvedPuzzle = solver.solve(puzzle);
         return res.status(200).json({solution: solvedPuzzle});
       } catch (err) {
