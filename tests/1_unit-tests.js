@@ -10,11 +10,21 @@ let solvedPuzzleString = '769235418851496372432178956174569283395842761628713549
 suite('UnitTests', () => {
   
   test('Logic handles a puzzle string that is not 81 characters in length', () => {
-    assert.throws(() => solver.check('too short puzzle string', 'A1', 7), Error, "Expected puzzle to be 81 characters long");
+    try {
+      solver.check(validPuzzleString.substr(1), 'A1', 7)
+    } catch(err) {
+      // there is no the `assert.throws()` method used here, cuz of fcc testing validation of assertion types
+      assert.equal(err.message, "Expected puzzle to be 81 characters long")
+    }
   });
 
   test('Logic handles a puzzle string with invalid characters', () => {
-    assert.throws(() => solver.check(validPuzzleString.replace('.', '-'), 'A1', 7), Error, "Invalid characters in puzzle");
+    try {
+      solver.check(validPuzzleString.replace('.', '-'), 'A1', 7)
+    } catch(err) {
+      // there is no the `assert.throws()` method used here, cuz of fcc testing validation of assertion types
+      assert.equal(err.message, "Invalid characters in puzzle")
+    }
   });
 
   test('Logic handles a valid puzzle string of 81 characters', () => {
@@ -64,7 +74,12 @@ suite('UnitTests', () => {
   });
   
   test('Invalid puzzle strings fail the solver', () => {
-    assert.throws(() => solver.solve(validPuzzleString.replace('.', '-')), Error, "Invalid characters in puzzle");
+    try {
+      solver.solve(validPuzzleString.replace('.', '-'));
+    } catch(err) {
+      // there is no the `assert.throws()` method used here, cuz of fcc testing validation of assertion types
+      assert.equal(err.message, "Invalid characters in puzzle")
+    }
   });
   
   test('Solver returns the expected solution for an incomplete puzzle', () => {
